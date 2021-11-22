@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
-require_relative "oystercard/version"
+class Oystercard
+  attr_reader :balance
 
-module Oystercard
-  class Error < StandardError; end
-  # Your code goes here...
+  def initialize
+    @balance = 0
+  end
 end

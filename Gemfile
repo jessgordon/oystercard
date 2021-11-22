@@ -7,13 +7,13 @@ gemspec
 
 group :test do
 
-gem "rspec", "~> 3.0"
+gem "rspec", "~> 3.10"
 
 end
 
 group :development do
 
-gem "rspec", "~> 3.0"
+gem "rspec", "~> 3.10"
 
 gem "rake", "~> 13.0"
 
