@@ -28,4 +28,11 @@ RSpec.describe Oystercard do
       expect(subject.limit?(100)).to eq true
     end
   end
+
+  describe "#deduct" do
+    it "deducts fair from card" do
+      subject.top_up(20)
+      expect(subject.deduct(5)).to eq 15
+    end
+  end
 end
