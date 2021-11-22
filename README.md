@@ -16,6 +16,10 @@ And then execute:
 
     $ bundle install
 
+If you want to test as well, add --with development
+
+    $ bundle install --with development
+
 Or install it yourself as:
 
     $ gem install oystercard
