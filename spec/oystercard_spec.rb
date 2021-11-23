@@ -38,7 +38,12 @@ RSpec.describe Oystercard do
 
   describe "#touch_in" do
     it "records when cardholder is on a journey" do
+      subject.top_up(50)
       expect(subject.touch_in).to eq true
+    end
+
+    it "throws an error if the balance is less than £1" do
+      expect { subject.touch_in }.to raise_error "Insufficient funds for journey"
     end
   end
 
@@ -50,6 +55,7 @@ RSpec.describe Oystercard do
 
   describe "#in_journey?" do
     it "returns true if card is in use" do
+      subject.top_up(50)
       subject.touch_in
       expect(subject.in_journey?).to eq true
     end
