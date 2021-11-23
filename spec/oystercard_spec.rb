@@ -35,4 +35,28 @@ RSpec.describe Oystercard do
       expect(subject.deduct(5)).to eq 15
     end
   end
+
+  describe "#touch_in" do
+    it "records when cardholder is on a journey" do
+      expect(subject.touch_in).to eq true
+    end
+  end
+
+  describe "#touch_out" do
+    it "records when cardholder ends a journey" do
+      expect(subject.touch_out).to eq false
+    end
+  end
+
+  describe "#in_journey?" do
+    it "returns true if card is in use" do
+      subject.touch_in
+      expect(subject.in_journey?).to eq true
+    end
+
+    it "returns false if card is not in use" do
+      subject.touch_out
+      expect(subject.in_journey?).to eq false
+    end
+  end
 end
