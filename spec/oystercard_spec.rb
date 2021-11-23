@@ -2,6 +2,7 @@
 
 RSpec.describe Oystercard do
   let(:subject) { Oystercard.new }
+  let(:station) { double :station }
 
   it { is_expected.to be_instance_of Oystercard }
 
@@ -31,38 +32,51 @@ RSpec.describe Oystercard do
 
   describe "#deduct" do
     it "deducts fair from card" do
-      subject.top_up(20)
-      expect(subject.send(:deduct, 5)).to eq 15
+      subject.top_up(50)
+      expect(subject.send(:deduct, 5)).to eq 45
     end
   end
 
   describe "#touch_in" do
     it "records when cardholder is on a journey" do
       subject.top_up(50)
-      expect(subject.touch_in).to eq true
+      expect(subject.touch_in(station)).to eq station
     end
 
     it "throws an error if the balance is less than £1" do
-      expect { subject.touch_in }.to raise_error "Insufficient funds for journey"
+      expect { subject.touch_in(station) }.to raise_error "Insufficient funds for journey"
+    end
+
+    it "saves the starting station at the point of touch in" do
+      subject.top_up(50)
+      subject.touch_in(station)
+      expect(subject.entry_station).to eq station
     end
   end
 
   describe "#touch_out" do
     it "records when cardholder ends a journey" do
-      expect(subject.touch_out).to eq false
+      expect(subject.touch_out).to eq nil
     end
 
     it "deduct minimum fare upon touch out" do
       subject.top_up(50)
-      subject.touch_in
+      subject.touch_in(station)
       expect { subject.touch_out }.to change { subject.balance }.by(-1)
+    end
+
+    it "sets the entry station to nil" do
+      subject.top_up(50)
+      subject.touch_in(station)
+      subject.touch_out
+      expect(subject.entry_station).to eq nil
     end
   end
 
   describe "#in_journey?" do
     it "returns true if card is in use" do
       subject.top_up(50)
-      subject.touch_in
+      subject.touch_in(station)
       expect(subject.in_journey?).to eq true
     end
 
