@@ -32,7 +32,7 @@ RSpec.describe Oystercard do
   describe "#deduct" do
     it "deducts fair from card" do
       subject.top_up(20)
-      expect(subject.deduct(5)).to eq 15
+      expect(subject.send(:deduct, 5)).to eq 15
     end
   end
 
@@ -50,6 +50,12 @@ RSpec.describe Oystercard do
   describe "#touch_out" do
     it "records when cardholder ends a journey" do
       expect(subject.touch_out).to eq false
+    end
+
+    it "deduct minimum fare upon touch out" do
+      subject.top_up(50)
+      subject.touch_in
+      expect { subject.touch_out }.to change { subject.balance }.by(-1)
     end
   end
 
