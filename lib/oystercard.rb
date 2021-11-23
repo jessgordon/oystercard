@@ -32,7 +32,7 @@ class Oystercard
     @in_use = false
   end
 
-  def in_journey? 
+  def in_journey?
     @in_use
   end
 end
